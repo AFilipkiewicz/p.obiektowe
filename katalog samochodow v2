@@ -1,0 +1,397 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+
+using namespace std;
+	std::fstream katalog;
+	class Samochod
+	{
+	public:
+	string marka;
+	string model;
+	int rocznik;
+	int pojemnosc;
+	int przebieg;
+	char skrzynia;
+	Samochod(string xmarka, string xmodel, int xrocznik, int xpojemnosc, int xprzebieg, char xskrzynia);
+	};
+
+	vector <Samochod> spis;
+	
+	void WczytajZapisKataloguZPliku(){
+	string marka;
+	string model;
+	int rocznik;
+	int pojemnosc;
+	int przebieg;
+	char skrzynia;
+		katalog.open("katalog.txt", ios::in);
+		if( katalog.good() == true )
+		cout << endl << "Uzyskano dostep do pliku!" << endl;
+		while(!katalog.eof())
+		{
+			katalog >> marka;
+			katalog >> model;
+			katalog >> rocznik;
+			katalog >> pojemnosc;
+			katalog >> przebieg;
+			katalog >> skrzynia;
+			spis.push_back(Samochod(marka, model, rocznik, pojemnosc, przebieg, skrzynia));
+		}
+		katalog.close();
+	}
+	
+	void dopisanie(){
+		char znak;
+	do{	
+		cout << "\n\n---Nowy samochód: ---\n";
+        cout << "\nPodaj markę: ";
+        string odp_marka;
+        cin.clear();
+        cin >> odp_marka;
+        cout << "model: ";
+        string odp_model;
+        cin.clear();
+        cin >> odp_model;
+        cout << "rocznik: ";
+        int odp_rocznik;
+        cin.clear();
+        cin >> odp_rocznik;
+        cout << "pojemność: ";
+        int odp_pojemnosc;
+        cin.clear();
+        cin >> odp_pojemnosc;
+        cout << "przebieg: ";
+        int odp_przebieg;
+        cin.clear();
+        cin >> odp_przebieg;
+        cout << "Typy skrzyń biegu i ich oznaczenia:" << endl << "m - skrzynia manualna;" << endl <<"a - skrzynia automatyczna stopniowa;" << endl <<"p - skrzynia półautomatycznia stopniowa;" << endl <<"b - skrzynia bezstopniowa;" << endl;
+        cout << "skrzynia: ";
+        char odp_skrzynia;
+        cin.clear();
+        cin >> odp_skrzynia;
+        spis.push_back(Samochod(odp_marka, odp_model, odp_rocznik, odp_pojemnosc, odp_przebieg, odp_skrzynia));
+        cout << endl;
+		cout << "Czy dopisać dane kolejnego samochodu? Jeśli tak podaj t lub T." << endl;
+		cin >> znak;
+	}while(znak=='t' || znak == 'T');
+	}
+	
+	void wyswietlenie(){
+		cout << "\n\n---Katalog samochodów: ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+		}
+		else
+			cout << "\nW katalogu nie ma zapisanych żadnych samochodów\n";
+	}
+	
+	void wyswietlaniewarunkowe1(int y){
+		cout << "\n\n---Katalog samochodów o roczniku nie starszym niż " << y <<": ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].rocznik>=y)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+		}
+		else
+			cout << "\nW katalogu nie ma zapisanych żadnych samochodów\n";
+	}
+	
+	void wyswietlaniewarunkowe2(int y){
+		cout << "\n\n---Katalog samochodów o pojemności nie mniejszej niż " << y <<": ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].pojemnosc>=y)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+		}
+		else
+			cout << "\nW katalogu nie ma zapisanych żadnych samochodów\n";
+	}
+	
+	void wyswietlaniewarunkowe3(int y){
+		cout << "\n\n---Katalog samochodów o przebiegu nie większym niż " << y <<": ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].przebieg<=y)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+		}
+		else
+			cout << "\nW katalogu nie ma zapisanych żadnych samochodów\n";
+	}	
+	
+	void wyswietlaniewarunkowe4(string y){
+		cout << "\n\n---Katalog samochodów o modelu " << y <<": ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].model==y)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+		}
+		else
+			cout << "\nW katalogu nie ma zapisanych żadnych samochodów\n";
+	}
+
+	void wyswietlaniewarunkowe5(string y){
+		cout << "\n\n---Katalog samochodów o marce " << y <<": ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].marka==y)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+		}
+		else
+			cout << "\nW katalogu nie ma zapisanych żadnych samochodów\n";
+	}
+		
+	void wyswietlaniepoj(int a){
+		cout << "\n\n---Dane samochodu o numerze " << a <<": ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(i==a)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+		}
+		else
+			cout << "\nW katalogu nie ma zapisanych żadnych samochodów\n";
+	}
+		
+	void sortuj1(){
+		int e=0;
+		int r=0;
+		cout << "\n\n---Katalog samochodów: ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].rocznik>e)
+		   	e=spis[i].rocznik;
+		}
+		do{
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].rocznik==e)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+			}
+			r=0;
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].rocznik>r && spis[i].rocznik<e)
+			r=spis[i].rocznik;
+		   	}
+		   	for(int i=0;i<spis.size();i++){
+			if(spis[i].rocznik==r)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+			}
+			e=0;
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].rocznik>e && spis[i].rocznik<r)
+			e=spis[i].rocznik;
+		   	}
+		}while(!e==0);
+	}
+		
+	void sortuj2(){
+		int e=0;
+		int r=0;
+		cout << "\n\n---Katalog samochodów: ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].pojemnosc>e)
+		   	e=spis[i].pojemnosc;
+		}
+		do{
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].pojemnosc==e)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+			}
+			r=0;
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].pojemnosc>r && spis[i].pojemnosc<e)
+			r=spis[i].pojemnosc;
+		   	}
+		   	for(int i=0;i<spis.size();i++){
+			if(spis[i].pojemnosc==r)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+			}
+			e=0;
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].pojemnosc>e && spis[i].pojemnosc<r)
+			e=spis[i].pojemnosc;
+		   	}
+		}while(!e==0);
+	}
+		
+	void sortuj3(){
+		int e=0;
+		int r=0;
+		cout << "\n\n---Katalog samochodów: ---\n";
+		if(spis.size()>1)
+		for(int i=0;i<spis.size();i++){
+			if(spis[i].przebieg>e)
+		   	e=spis[i].przebieg;
+		}
+		do{
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].przebieg==e)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+			}
+			r=0;
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].przebieg>r && spis[i].przebieg<e)
+			r=spis[i].przebieg;
+		   	}
+		   	for(int i=0;i<spis.size();i++){
+			if(spis[i].przebieg==r)
+			cout << "\nMarka: " << spis[i].marka << "\nModel: " << spis[i].model << "\nRocznik: " << spis[i].rocznik << "\nPojemność: " << spis[i].pojemnosc << "\nPrzebieg: " << spis[i].przebieg << "\nSkrzynia: " << spis[i].skrzynia << endl;
+			}
+			e=0;
+			for(int i=0;i<spis.size();i++){
+			if(spis[i].przebieg>e && spis[i].przebieg<r)
+			e=spis[i].przebieg;
+		   	}
+		}while(!e==0);
+	}
+		
+	void usuwanie(int a){
+		spis.erase(spis.begin()+a-1);
+	}
+		
+	void ZapiszZapisWektoraDoKatalogu(){
+		katalog.open("katalog.txt", ios::trunc);
+	   	katalog.close();
+	   	katalog.open("katalog.txt", ios::out);
+	   	for(int i=0;i<spis.size();i++)
+        {
+        katalog << spis[i].marka << " " << spis[i].model << " " << spis[i].rocznik << " " << spis[i].pojemnosc << " " << spis[i].przebieg << " " << spis[i].skrzynia << endl;
+        }
+	   	katalog.close();
+	}
+	
+	int main()
+	{
+	setlocale(LC_ALL, "");
+	
+	int q;
+	int w;
+	int t;
+	int a;
+	int y;
+	string u;
+	char znak;
+	WczytajZapisKataloguZPliku();
+	do{
+		cout << "Wybierz jedną z opcji: " << endl;
+		cout << endl;
+		cout << "1. Wprowadzenie danych nowego samochodu." << endl;
+		cout << "2. Wyświetlenie listy samochodów." << endl;
+		cout << "3. Wyświetlenie warunkowe listy samochodów." << endl;
+		cout << "4. Wyświetlenie danych pojedynczego samochodu." << endl;
+		cout << "5. Posortowanie samochodów po wybranym parametrze." << endl;
+		cout << "6. Usunięcie samochodu z katalogu." << endl;
+		cout << "7. Zapisanie katalogu do pliku." << endl;
+		cout << endl;
+		cout << "Numer wybranej opcji: ";
+		cin >> q;
+		cout << "Została wybrana opcja numer: ";
+		cout << q;
+		switch (q){
+			case 1:
+				dopisanie();
+				break;
+			case 2:
+				wyswietlenie();
+				break;
+			case 3:
+				cout << endl << "Wybierz jedną z opcji: " << endl;
+				cout << endl;
+				cout << "1. Ustaw minimalny rocznik wyświetlanych samochodów." << endl;
+		   	   	cout << "2. Ustaw minimalną pojemność wyświetlanych samochodów." << endl;
+				cout << "3. Ustaw maksymalny przebieg wyświetlanych samochodów." << endl;
+				cout << "4. Ustaw nazwę modeli wyświetlanych samochodów." << endl;
+				cout << "5. Ustaw nazwę marek wyświetlanych samochodów." << endl;
+				cout << endl;
+				cout << "Numer wybranej opcji: ";
+				cin >> t;
+		   	   	cout << "Została wybrana opcja numer: ";
+		   	   	cout << t;
+		   	   	cout << endl;
+	  	   	   	switch(t)
+						 {
+						 case 1:
+						 	cout << "Podaj minimalny rocznik wyświetlanych samochodów." << endl;
+						 	cin >> y;
+						 	wyswietlaniewarunkowe1(y);
+						 	 break;
+						 case 2:
+						 	cout << "Podaj minimalną pojemność wyświetlanych samochodów." << endl;
+						 	cin >> y;
+						 	wyswietlaniewarunkowe2(y);
+					 	 	break;
+					 	 case 3:
+					 	 	cout << "Podaj maksymalny przebieg wyświetlanych samochodów." << endl;
+					 	 	cin >> y;
+					 	 	wyswietlaniewarunkowe3(y);
+					 	 	break;
+					 	 case 4:
+					 	 	cout << "Podaj nazwę modeli wyświetlanych samochodów." << endl;
+					 	 	cin >> u;
+					 	 	wyswietlaniewarunkowe4(u);
+					 	 	break;
+					 	 case 5:
+					 	 	cout << "Podaj nazwę marek wyświetlanych samochodów." << endl;
+					 	 	cin >> u;
+					 	 	wyswietlaniewarunkowe5(u);
+					 	 	break;
+						 default:
+							 cout << endl << "Brak opcji o podanym numerze." << endl;
+						 }
+				break;
+			case 4:
+				a=0;
+				cout << endl << "Dane, którego samochodu chcesz wyświetlić? Podaj numer samochodu: ";
+				cin >> a;
+				wyswietlaniepoj(a);
+				break;
+			case 5:
+				cout << endl << "Wybierz jedną z opcji: " << endl;
+				cout << endl;
+				cout << "1. Sortuj po roczniku." << endl;
+		   	   	cout << "2. Sortuj po pojemności." << endl;
+				cout << "3. Sortuj po przebiegu." << endl;
+				cout << endl;
+				cout << "Numer wybranej opcji: ";
+				cin >> w;
+		   	   	cout << "Została wybrana opcja numer: ";
+		   	   	cout << w;
+	  	   	   	switch(w)
+						 {
+						 case 1:
+						 	sortuj1();
+						 	 break;
+						 case 2:
+						 	sortuj2();
+					 	 	break;
+					 	 case 3:
+					 	 	sortuj3();
+					 	 	break;
+						 default:
+							 cout << endl << "Brak opcji o podanym numerze." << endl;
+						 }
+				break;
+			case 6:
+				a=0;
+				cout << endl << "Dane, którego samochodu chcesz usunąć? Podaj numer samochodu: ";
+				cin >> a;
+				usuwanie(a);
+				break;
+			case 7:
+				ZapiszZapisWektoraDoKatalogu();
+				break;
+			default:
+				cout << endl << "Brak opcji o podanym numerze." << endl;
+		}
+		
+		cout << endl;
+		cout << "Czy wrócić do MENU? Jeśli tak podaj t lub T." << endl;
+		cin >> znak;
+	} while (znak=='t' || znak == 'T');
+
+		return 0;
+	}
+	Samochod::Samochod(string xmarka, string xmodel, int xrocznik, int xpojemnosc, int xprzebieg, char xskrzynia)
+	: marka(xmarka), model(xmodel), rocznik(xrocznik), pojemnosc(xpojemnosc), przebieg(xprzebieg), skrzynia(xskrzynia){}
